@@ -1,2 +1,6 @@
 rootProject.name = 'jessica-parent'
+include 'core'
+findProject(':core')?.name = 'jessica-core'
+include 'spigot'
+findProject(':spigot')?.name = 'jessica-spigot'
 
