@@ -11,7 +11,9 @@ import de.d3adspace.jessica.spigot.listener.PlayerQuitListener;
 import de.d3adspace.jessica.spigot.module.JessicaSpigotModule;
 import de.d3adspace.jessica.spigot.module.JessicaVaultModule;
 import de.d3adspace.jessica.spigot.permission.PermissionsUserModel;
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.Plugin;
@@ -66,7 +68,7 @@ public class JessicaSpigotPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Check if vault is loaded and we can provide vault support.
-        boolean vaultSupport = pluginManager.getPlugin(VAULT_PLUGIN_NAME) != null;
+        boolean vaultSupport = Bukkit.getPluginManager().getPlugin(VAULT_PLUGIN_NAME) != null;
 
         // Assemble module
         Module module = new JessicaSpigotModule(this);
@@ -80,7 +82,10 @@ public class JessicaSpigotPlugin extends JavaPlugin {
 
         if (vaultSupport) {
             Permission permission = injector.getInstance(Permission.class);
+            Chat chat = injector.getInstance(Chat.class);
+
             servicesManager.register(Permission.class, permission, this, ServicePriority.High);
+            servicesManager.register(Chat.class, chat, this, ServicePriority.High);
         }
 
         // Register listeners.

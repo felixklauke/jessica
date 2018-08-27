@@ -2,10 +2,12 @@ package de.d3adspace.jessica.spigot.permission;
 
 import com.google.common.collect.Maps;
 import de.d3adspace.jessica.core.user.PermissionsUser;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -38,7 +40,10 @@ public class ConfigurationPermissionManager extends AbstractPermissionManager {
         if (!configuration.contains("permissions.player." + uniqueId)) {
 
             // The permissions user object. TODO: Configurable default values.
-            PermissionsUser permissionsUser = new PermissionsUserModel(uniqueId, Maps.newHashMap(), "default");
+            HashMap<String, Object> metaData = Maps.newHashMap();
+            metaData.put("prefix", ChatColor.GOLD.toString());
+            metaData.put("suffix", ChatColor.AQUA.toString());
+            PermissionsUser permissionsUser = new PermissionsUserModel(uniqueId, metaData, Maps.newHashMap(), "default");
 
             savePermissionsUser(permissionsUser);
 

@@ -18,11 +18,13 @@ import java.util.UUID;
 public class PermissionsUserModel implements PermissionsUser, ConfigurationSerializable {
 
     private final UUID uniqueId;
+    private final Map<String, Object> metaData;
     private final Map<String, Boolean> permissions;
     private final String group;
 
-    public PermissionsUserModel(UUID uniqueId, Map<String, Boolean> permissions, String group) {
+    public PermissionsUserModel(UUID uniqueId, Map<String, Object> metaData, Map<String, Boolean> permissions, String group) {
         this.uniqueId = uniqueId;
+        this.metaData = metaData;
         this.permissions = permissions;
         this.group = group;
     }
@@ -47,10 +49,49 @@ public class PermissionsUserModel implements PermissionsUser, ConfigurationSeria
         return permissions;
     }
 
+    public static PermissionsUserModel deserialize(Map<String, Object> data) {
+        Object uniqueIdObject = data.get("uniqueId");
+        Object metaDataObject = data.get("metadata");
+        Object groupNameObject = data.get("group");
+        Object permissionsObject = data.get("permissions");
+
+        UUID uniqueId = UUID.fromString(uniqueIdObject.toString());
+        String groupName = groupNameObject.toString();
+        Map<String, Object> metaData = (Map<String, Object>) metaDataObject;
+        List<String> permissionsList = (List<String>) permissionsObject;
+        Map<String, Boolean> permissions = Maps.newHashMap();
+
+        for (String permission : permissionsList) {
+            boolean status = true;
+
+            if (permission.startsWith("-")) {
+                status = false;
+                permission = permission.substring(1);
+            }
+
+            permissions.put(permission, status);
+        }
+
+        return new PermissionsUserModel(uniqueId, metaData, permissions, groupName);
+    }
+
+    @Override
+    public String getPrefix() {
+        Object prefix = metaData.get("prefix");
+        return prefix == null ? "" : prefix.toString();
+    }
+
+    @Override
+    public String getSuffix() {
+        Object suffix = metaData.get("suffix");
+        return suffix == null ? "" : suffix.toString();
+    }
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = Maps.newHashMap();
         data.put("uniqueId", uniqueId.toString());
+        data.put("metadata", metaData);
         data.put("group", group);
 
         List<String> permissionsList = Lists.newArrayList();
@@ -66,30 +107,5 @@ public class PermissionsUserModel implements PermissionsUser, ConfigurationSeria
 
         data.put("permissions", permissionsList);
         return data;
-    }
-
-    public static PermissionsUserModel deserialize(Map<String, Object> data) {
-        Object uniqueIdObject = data.get("uniqueId");
-        Object groupNameObject = data.get("group");
-        Object permissionsObject = data.get("permissions");
-
-        UUID uniqueId = UUID.fromString(uniqueIdObject.toString());
-        String groupName = groupNameObject.toString();
-
-        List<String> permissionsList = (List<String>) permissionsObject;
-        Map<String, Boolean> permissions = Maps.newHashMap();
-
-        for (String permission : permissionsList) {
-            boolean status = true;
-
-            if (permission.startsWith("-")) {
-                status = false;
-                permission = permission.substring(1);
-            }
-
-            permissions.put(permission, status);
-        }
-
-        return new PermissionsUserModel(uniqueId, permissions, groupName);
     }
 }
