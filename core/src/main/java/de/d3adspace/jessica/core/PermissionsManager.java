@@ -18,4 +18,24 @@ public interface PermissionsManager {
      * @return The user.
      */
     PermissionsUser getUser(UUID uniqueId);
+
+    /**
+     * Add the given permission to the given user.
+     *
+     * @param uniqueId   The unique id of the user.
+     * @param permission The permission.
+     *
+     * @return If it was successfully.
+     */
+    boolean addPermission(UUID uniqueId, String permission);
+
+    /**
+     * Remove the given permission from the given user.
+     *
+     * @param uniqueId   The unique id of the user.
+     * @param permission The permission.
+     *
+     * @return If it was successfully.
+     */
+    boolean removePermission(UUID uniqueId, String permission);
 }

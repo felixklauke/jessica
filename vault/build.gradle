@@ -1,6 +1,4 @@
 plugins {
-
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'java'
 }
 
@@ -9,22 +7,12 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-shadowJar {
-
-    configurations = [project.configurations.runtime]
-}
-
 repositories {
 
     /**
      * Spigot Repo
      */
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-
-    /**
-     * Sonatype
-     */
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
 
     /**
      * Vault repository.
@@ -35,19 +23,9 @@ repositories {
 dependencies {
 
     /**
-     * Spigot API
-     */
-    compileOnly 'org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT'
-
-    /**
      * VaultAPI
      */
     compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
-
-    /**
-     * Google guice for dependency injection
-     */
-    compile group: 'com.google.inject', name: 'guice', version: '4.2.0'
 
     /**
      * Core
@@ -55,7 +33,7 @@ dependencies {
     compile project(":jessica-core")
 
     /**
-     * Core
+     * Injection.
      */
-    compile project(":jessica-vault")
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
 }
