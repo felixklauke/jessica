@@ -2,7 +2,11 @@ name: Jessica
 version: 1.0
 main: de.d3adspace.jessica.spigot.plugin.JessicaSpigotPlugin
 
-soft-depends: [ Vault ]
+author: Felix Klauke
+
+load: STARTUP
+
+soft-depend: [ Vault ]
 
 commands:
   perm:

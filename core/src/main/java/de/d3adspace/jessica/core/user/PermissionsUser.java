@@ -39,4 +39,18 @@ public interface PermissionsUser {
      * @return The effective permissions.
      */
     Map<String, Boolean> getEffectivePermissions();
+
+    /**
+     * Get the prefix of the player.
+     *
+     * @return The prefix.
+     */
+    String getPrefix();
+
+    /**
+     * Get the suffix of the player.
+     *
+     * @return The suffix.
+     */
+    String getSuffix();
 }
