@@ -1,10 +1,8 @@
 package de.d3adspace.jessica.spigot.permission;
 
 import com.google.common.collect.Maps;
-import de.d3adspace.jessica.core.PermissionsManager;
 import de.d3adspace.jessica.core.user.PermissionsUser;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,7 +14,7 @@ import java.util.UUID;
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
-public class ConfigurationPermissionManager implements PermissionsManager {
+public class ConfigurationPermissionManager extends AbstractPermissionManager {
 
     /**
      * The underlying configuration.
@@ -42,12 +40,18 @@ public class ConfigurationPermissionManager implements PermissionsManager {
             // The permissions user object. TODO: Configurable default values.
             PermissionsUser permissionsUser = new PermissionsUserModel(uniqueId, Maps.newHashMap(), "default");
 
-            configuration.set("permissions.player." + uniqueId, permissionsUser);
+            savePermissionsUser(permissionsUser);
 
             return permissionsUser;
         }
 
         // Load object directly from config.
         return configuration.getSerializable("permissions.player." + uniqueId, PermissionsUserModel.class);
+    }
+
+    @Override
+    protected void savePermissionsUser(PermissionsUser permissionsUser) {
+
+        configuration.set("permissions.player." + permissionsUser.getUniqueId(), permissionsUser);
     }
 }

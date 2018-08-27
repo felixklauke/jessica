@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+}
+
+group 'de.d3adspace.jessica'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+
+    /**
+     * Vault repository.
+     */
+    maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
+}
+
+dependencies {
+
+    /**
+     * VaultAPI
+     */
+    compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
+
+    /**
+     * Core
+     */
+    compile project(":jessica-core")
+
+    /**
+     * Injection.
+     */
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+}

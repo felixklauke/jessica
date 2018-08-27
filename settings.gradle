@@ -3,4 +3,6 @@ include 'core'
 findProject(':core')?.name = 'jessica-core'
 include 'spigot'
 findProject(':spigot')?.name = 'jessica-spigot'
+include 'vault'
+findProject(':vault')?.name = 'jessica-vault'
 

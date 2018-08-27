@@ -25,6 +25,11 @@ repositories {
      * Sonatype
      */
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+
+    /**
+     * Vault repository.
+     */
+    maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
 }
 
 dependencies {
@@ -35,6 +40,11 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT'
 
     /**
+     * VaultAPI
+     */
+    compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
+
+    /**
      * Google guice for dependency injection
      */
     compile group: 'com.google.inject', name: 'guice', version: '4.2.0'
@@ -42,5 +52,10 @@ dependencies {
     /**
      * Core
      */
-    compile project(":jessica-core");
+    compile project(":jessica-core")
+
+    /**
+     * Core
+     */
+    compile project(":jessica-vault")
 }

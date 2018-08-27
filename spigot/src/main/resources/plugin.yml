@@ -1,3 +1,11 @@
 name: Jessica
 version: 1.0
 main: de.d3adspace.jessica.spigot.plugin.JessicaSpigotPlugin
+
+soft-depends: [ Vault ]
+
+commands:
+  perm:
+    description: The general permissions command
+    aliases: [ "gm", "pex", "permissions" ]
+    usage: /perm
