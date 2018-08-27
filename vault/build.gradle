@@ -10,6 +10,11 @@ sourceCompatibility = 1.8
 repositories {
 
     /**
+     * Spigot Repo
+     */
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+
+    /**
      * Vault repository.
      */
     maven { url "http://nexus.hc.to/content/repositories/pub_releases" }
