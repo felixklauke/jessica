@@ -1,44 +1,38 @@
 package de.d3adspace.jessica.spigot.listener;
 
-import de.d3adspace.jessica.spigot.JessicaApplication;
+import de.d3adspace.jessica.core.permission.PermissionsManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.UUID;
 
 /**
- * {@link Listener} for the {@link PlayerJoinEvent} that is responsible for letting the {@link JessicaApplication}
- * know about joined players so their permissions can be initialized properly.
+ * Listener for the {@link PlayerJoinEvent} and responsible for handling incoming players.
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
-@Singleton
 public class PlayerJoinListener implements Listener {
 
     /**
-     * The jessica application.
+     * The permissions manager used for initiating a new player session.
      */
-    private final JessicaApplication jessicaApplication;
+    private final PermissionsManager permissionsManager;
 
-    /**
-     * Create a new player join listener by the underlying jessica application.
-     *
-     * @param jessicaApplication the jessica application.
-     */
     @Inject
-    public PlayerJoinListener(JessicaApplication jessicaApplication) {
-        this.jessicaApplication = jessicaApplication;
+    public PlayerJoinListener(PermissionsManager permissionsManager) {
+        this.permissionsManager = permissionsManager;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
 
-        // Initialize player permissions
         Player player = playerJoinEvent.getPlayer();
-        jessicaApplication.initPermissions(player);
+        UUID uniqueId = player.getUniqueId();
+
+        // Init session and load the players permissions
+        permissionsManager.initSession(uniqueId);
     }
 }

@@ -1,33 +1,28 @@
 package de.d3adspace.jessica.spigot.module;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Module;
 import com.google.inject.name.Names;
-import de.d3adspace.jessica.core.PermissionsManager;
-import de.d3adspace.jessica.spigot.JessicaApplication;
-import de.d3adspace.jessica.spigot.JessicaApplicationImpl;
-import de.d3adspace.jessica.spigot.permission.ConfigurationPermissionManager;
 import de.d3adspace.jessica.spigot.plugin.JessicaSpigotPlugin;
+import org.bukkit.Server;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
 
 /**
- * The {@link Module} for Jessica that provides bukkit specific bindings like the plugin instance but also the
- * implementations of our services.
+ * Contains bindings regarding general plugin resources and instances.
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
 public class JessicaSpigotModule extends AbstractModule {
 
     /**
-     * Jessicas's plugin instance.
+     * The plugin instance used to obtain the server resources.
      */
     private final JessicaSpigotPlugin jessicaSpigotPlugin;
 
     /**
-     * Create a new jessica spigot module based on the spigot plugin instance.
+     * Create a new module instance by the underlying plugin instance.
      *
      * @param jessicaSpigotPlugin The plugin instance.
      */
@@ -37,16 +32,13 @@ public class JessicaSpigotModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        // Plugin and bukkit specific stuff
+
         bind(Plugin.class).toInstance(jessicaSpigotPlugin);
-        bind(PluginManager.class).toInstance(jessicaSpigotPlugin.getServer().getPluginManager());
-        bind(ServicesManager.class).toInstance(jessicaSpigotPlugin.getServer().getServicesManager());
+        bind(Configuration.class).annotatedWith(Names.named("mainConfig")).toInstance(jessicaSpigotPlugin.getConfig());
 
-        // Permissions manager
-        bind(Configuration.class).annotatedWith(Names.named("permissionsConfiguration")).toInstance(jessicaSpigotPlugin.getConfig());
-        bind(PermissionsManager.class).to(ConfigurationPermissionManager.class);
-
-        // Bind main application
-        bind(JessicaApplication.class).to(JessicaApplicationImpl.class);
+        Server server = jessicaSpigotPlugin.getServer();
+        bind(Server.class).toInstance(server);
+        bind(ServicesManager.class).toInstance(server.getServicesManager());
+        bind(PluginManager.class).toInstance(server.getPluginManager());
     }
 }
