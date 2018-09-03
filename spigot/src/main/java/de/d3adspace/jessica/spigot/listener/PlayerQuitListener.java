@@ -1,40 +1,38 @@
 package de.d3adspace.jessica.spigot.listener;
 
-import de.d3adspace.jessica.spigot.JessicaApplication;
+import de.d3adspace.jessica.core.permission.PermissionsManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import javax.inject.Inject;
+import java.util.UUID;
 
 /**
- * {@link Listener} for the {@link PlayerQuitEvent} responsible for cleaning up whatever the leaving {@link Player}
- * lefts for us.
+ * Listener for the {@link PlayerQuitEvent} responsible for handling quitting players.
  *
  * @author Felix Klauke <info@felix-klauke.de>
  */
 public class PlayerQuitListener implements Listener {
 
     /**
-     * The underlying jessica application.
+     * The permissions manager used to destroy player sessions.
      */
-    private final JessicaApplication jessicaApplication;
+    private final PermissionsManager permissionsManager;
 
-    /**
-     * Create a new quit listener by the underlying jessica application.
-     *
-     * @param jessicaApplication The jessica application.
-     */
     @Inject
-    public PlayerQuitListener(JessicaApplication jessicaApplication) {
-        this.jessicaApplication = jessicaApplication;
+    public PlayerQuitListener(PermissionsManager permissionsManager) {
+        this.permissionsManager = permissionsManager;
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent playerQuitEvent) {
 
         Player player = playerQuitEvent.getPlayer();
-        jessicaApplication.destroyPermissions(player);
+        UUID uniqueId = player.getUniqueId();
+
+        // Destroy the permission session and erase data
+        permissionsManager.destroySession(uniqueId);
     }
 }

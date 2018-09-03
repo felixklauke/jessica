@@ -1,6 +1,7 @@
 name: Jessica
 version: 1.0
 main: de.d3adspace.jessica.spigot.plugin.JessicaSpigotPlugin
+website: https://www.felix-klauke.de
 
 author: Felix Klauke
 
@@ -9,7 +10,7 @@ load: STARTUP
 soft-depend: [ Vault ]
 
 commands:
-  perm:
+  permissions:
     description: The general permissions command
-    aliases: [ "gm", "pex", "permissions" ]
-    usage: /perm
+    aliases: [ "perms", "perm", "gm", "pex", "permission" ]
+    usage: /permissions
