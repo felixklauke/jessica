@@ -120,7 +120,7 @@ public class ConfigurationPermissionsManager extends AbstractPermissionsManager 
     }
 
     /**
-     * Save the given model in the configuration for teh given unique id.
+     * Save the given model in the configuration for the given unique id.
      *
      * @param uniqueId  The unique id.
      * @param userModel The model.
