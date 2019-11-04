@@ -25,7 +25,7 @@ dependencies {
     /**
      * VaultAPI
      */
-    compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
+    compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.7'
 
     /**
      * Core
