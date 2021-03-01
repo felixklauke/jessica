@@ -47,7 +47,7 @@ dependencies {
     /**
      * Google guice for dependency injection
      */
-    compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+    compile group: 'com.google.inject', name: 'guice', version: '5.0.1'
 
     /**
      * Core
